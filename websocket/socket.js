@@ -27,15 +27,15 @@ const startSocket = (server) => {
 
     // send message
     socket.on("sendMessage", (data) => {
-      console.log(data, "send message");
-      io.emit("receiveMessage", data);
+      // io.emit("receiveMessage", data);
+      socket.broadcast.emit("receiveMessage", data);
     });
 
     // receive message
-    socket.on("receiveMessage", (data) => {
-      console.log(data, "receive message");
-      io.emit("receiveMessage", data);
-    });
+    // socket.on("receiveMessage", (data) => {
+    //   console.log(data, "receive message");
+    //   io.emit("receiveMessage", data);
+    // });
 
     //disconnect
     socket.on("disconnect", (data) => {
