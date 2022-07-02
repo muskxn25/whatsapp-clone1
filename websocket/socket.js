@@ -1,4 +1,6 @@
 let socket = require("socket.io");
+const db = require("../models");
+const Chat = db.chat_model;
 
 const startSocket = (server) => {
   let users = {};
@@ -19,16 +21,28 @@ const startSocket = (server) => {
 
     // new user
     socket.on("newUser", (data) => {
-      console.log(data, "new user");
+      // console.log(data, "new user");
       users[data.userId] = socket.id;
       onlineUser.push(data.userId);
       io.emit("newUser", data);
     });
 
     // send message
-    socket.on("sendMessage", (data) => {
+    socket.on("sendMessage", async (data) => {
       // io.emit("receiveMessage", data);
       socket.broadcast.emit("receiveMessage", data);
+
+      let { sender_id, receiver_id, message } = data;
+
+      try {
+        await Chat.create({
+          sender_id,
+          receiver_id,
+          message,
+        });
+      } catch (error) {
+        console.log(error);
+      }
     });
 
     // receive message
@@ -39,7 +53,7 @@ const startSocket = (server) => {
 
     //disconnect
     socket.on("disconnect", (data) => {
-      console.log(data, "disconnect");
+      // console.log(data, "disconnect");
       // io.emit("disconnect", data);
     }); // disconnect
   });
