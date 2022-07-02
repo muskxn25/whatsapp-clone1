@@ -17,10 +17,11 @@ export const contactList = [
   },
   {
     id: 3,
-    name: "Elon Bezoz",
+    name: "Elon (8866643262)",
     profilePic: "/whatsapp-clone/profile/elon.jpeg",
     lastText: "Where is my Tesla?",
     lastTextTime: "12:30 PM",
+    receiver_id: "8866643262",
   },
   {
     id: 4,
